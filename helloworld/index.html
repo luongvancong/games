@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello world</title>
+</head>
+<body>
+    <div id="game-container"></div>
+    <script src="assets/js/phaser.min.js"></script>
+    <script src="assets/js/preload.js"></script>
+    <script src="assets/js/game.js"></script>
+    <script src="assets/js/game_over.js"></script>
+    <script>
+        var game = new Phaser.Game(600, 600, Phaser.AUTO, '');
+        game.state.add('preload', Preload);
+        game.state.add('game', Game);
+        game.state.add('game_over', GameOver);
+        game.state.start('preload');
+    </script>
+</body>
+</html>
