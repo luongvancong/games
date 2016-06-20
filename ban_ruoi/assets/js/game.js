@@ -63,6 +63,7 @@ function update() {
     space.tilePosition.y += 2;
 
     player.body.velocity.setTo(0,0);
+
     if(cursors.left.isDown) {
         player.body.velocity.x = -200;
     }
@@ -77,8 +78,6 @@ function update() {
     if(game.time.now > alienBulletTime) {
         alienFires();
     }
-
-    alienFires();
 
     // update overlap
     game.physics.arcade.overlap(playerBullets, alients, playerFireHandler, null, this);
@@ -123,7 +122,7 @@ function fireBullet() {
     // Nếu time game > time viên đạn thì bắn viên đạn
     // tránh trường hợp đạn bắn quá nhanh tạo thành hiệu ứng
     // sóng đạn
-    if(game.time.now > bulletTime) {
+    if(game.time.now > bulletTime && player.alive) {
         bullet = playerBullets.getFirstExists(false);
 
         if (bullet)
@@ -154,7 +153,7 @@ function alienFires() {
 
         game.physics.arcade.moveToObject(alienBullet, player, 120);
 
-        alienBulletTime = game.time.now + 2000;
+        alienBulletTime = game.time.now + 200;
     }
 
 }
@@ -170,6 +169,14 @@ function playerFireHandler(bullet, alient) {
 
     // Sound
     soundBoomb.play();
+
+    if(alients.total <= 0) {
+        // Next state
+        stateText.text = "Clear, Good Job \ Click to restart";
+        stateText.visible = true;
+
+        game.input.onTap.addOnce(restart, this);
+    }
 }
 
 function alientFireHandler(bullet, player) {
@@ -179,13 +186,16 @@ function alientFireHandler(bullet, player) {
     alients.callAll('kill');
     alienBullets.callAll('kill');
 
+    // Show boomb
     var explode = explodes.getFirstExists(false);
     explode.reset(player.body.x, player.body.y);
     explode.animations.play('boob', 30, false, true);
 
+    // Show text died shit
     stateText.text = 'You died!!!, Muahaaaaaaaaaaaaaaaa!!!\n Click to restart';
     stateText.visible = true;
 
+    // Event restart when you click to the screen
     game.input.onTap.addOnce(restart, this);
 
     // Sound
@@ -253,5 +263,5 @@ function restart() {
 
     stateText.text = '';
 
-    soundBackground.play();
+    soundBackground.restart();
 }
