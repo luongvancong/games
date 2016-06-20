@@ -1,10 +1,3 @@
-var game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
-    preload : preload,
-    create : create,
-    update : update,
-    render : render
-});
-
 var player;
 var alients;
 var playerBullets;
@@ -20,70 +13,83 @@ var aliveAliens = [];
 var stateText;
 var soundBoomb;
 var soundBackground;
+var timeCounter = 0;
+var lastAlienDead;
+var score = 0;
+var scoreLabel;
 
-function preload() {
-    game.load.image('player_bullet', 'assets/images/bullet.png');
-    game.load.image('enemy_bullet', 'assets/images/enemy-bullet.png');
-    game.load.image('space', 'assets/images/starfield.png');
-    game.load.image('player', 'assets/images/player.png');
-    game.load.spritesheet('alients', 'assets/images/invader32x32x4.png', 32, 32);
-    game.load.spritesheet('explode', 'assets/images/explode.png', 128, 128);
-    game.load.image('invader', 'assets/images/invader.png');
-    game.load.audio('sound_boomb', 'assets/audios/explosion.mp3');
-    game.load.audio('sound_background', 'assets/audios/background.mp3');
+var Game = function(game) {
+    this.game = game;
 }
 
+Game.prototype = {
 
-function create() {
-    game.physics.startSystem(Phaser.Physics.ARCADE);
+    preload : function() {
+        game.load.image('player_bullet', 'assets/images/bullet.png');
+        game.load.image('enemy_bullet', 'assets/images/enemy-bullet.png');
+        game.load.image('space', 'assets/images/starfield.png');
+        game.load.image('player', 'assets/images/player.png');
+        game.load.spritesheet('alients', 'assets/images/invader32x32x4.png', 32, 32);
+        game.load.spritesheet('explode', 'assets/images/explode.png', 128, 128);
+        game.load.image('invader', 'assets/images/invader.png');
+        game.load.audio('sound_boomb', 'assets/audios/explosion.mp3');
+        game.load.audio('sound_background', 'assets/audios/background.mp3');
+    },
 
-    createSpace();
-    createAlients();
-    createPlayer();
-    createBullets();
-    createAlienBullets();
-    createExplodes();
+    create: function(){
+        game.physics.startSystem(Phaser.Physics.ARCADE);
 
-    createStateText();
+        createSpace();
+        createAlients();
+        createPlayer();
+        createBullets();
+        createAlienBullets();
+        createExplodes();
 
-    soundBoomb = game.add.audio('sound_boomb');
+        createScoreLabel();
+        createStateText();
 
-    soundBackground = game.add.audio('sound_background');
+        soundBoomb = game.add.audio('sound_boomb');
 
-    soundBackground.play('', 0, 1, true);
+        soundBackground = game.add.audio('sound_background');
 
-    // game.sound.setDecodedCallback([ soundBoomb ], soundCallback, this);
+        soundBackground.play('', 0, 1, true);
 
-    // Add control
-    cursors = game.input.keyboard.createCursorKeys();
-    fireButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-}
+        game.time.events.loop(Phaser.Timer.SECOND, updateCounter, this);
 
-function update() {
-    space.tilePosition.y += 2;
+        // game.sound.setDecodedCallback([ soundBoomb ], soundCallback, this);
 
-    player.body.velocity.setTo(0,0);
+        // Add control
+        cursors = game.input.keyboard.createCursorKeys();
+        fireButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    },
 
-    if(cursors.left.isDown) {
-        player.body.velocity.x = -200;
+    update: function() {
+        space.tilePosition.y += 2;
+
+        player.body.velocity.setTo(0,0);
+
+        if(cursors.left.isDown) {
+            player.body.velocity.x = -200;
+        }
+        else if(cursors.right.isDown) {
+            player.body.velocity.x = 200;
+        }
+
+        if(fireButton.isDown) {
+            fireBullet();
+        }
+
+        if(game.time.now > alienBulletTime) {
+            alienFires();
+        }
+
+        // update overlap
+        game.physics.arcade.overlap(playerBullets, alients, playerFireHandler, null, this);
+        game.physics.arcade.overlap(alienBullets, player, alientFireHandler, null, this);
+
     }
-    else if(cursors.right.isDown) {
-        player.body.velocity.x = 200;
-    }
-
-    if(fireButton.isDown) {
-        fireBullet();
-    }
-
-    if(game.time.now > alienBulletTime) {
-        alienFires();
-    }
-
-    // update overlap
-    game.physics.arcade.overlap(playerBullets, alients, playerFireHandler, null, this);
-    game.physics.arcade.overlap(alienBullets, player, alientFireHandler, null, this);
-
-}
+};
 
 
 function createBullets() {
@@ -129,7 +135,7 @@ function fireBullet() {
         {
             //  And fire it
             bullet.reset(player.x + 14, player.y + 8);
-            bullet.body.velocity.y = -400;
+            bullet.body.velocity.y = -350;
             bulletTime = game.time.now + 200;
         }
     }
@@ -151,7 +157,7 @@ function alienFires() {
 
         alienBullet.reset(ramdomAlien.body.x, ramdomAlien.body.y);
 
-        game.physics.arcade.moveToObject(alienBullet, player, 120);
+        game.physics.arcade.moveToObject(alienBullet, player, 150);
 
         alienBulletTime = game.time.now + 200;
     }
@@ -163,12 +169,18 @@ function playerFireHandler(bullet, alient) {
     bullet.kill();
     alient.kill();
 
+    lastAlienDead = alient;
+
     var explode = explodes.getFirstExists(false);
     explode.reset(alient.body.x, alient.body.y);
     explode.animations.play('boob', 30, false, true);
 
     // Sound
     soundBoomb.play();
+
+    // Update score
+    score += 10;
+    scoreLabel.text = 'Score : ' + score;
 
     if(alients.total <= 0) {
         // Next state
@@ -180,6 +192,7 @@ function playerFireHandler(bullet, alient) {
 }
 
 function alientFireHandler(bullet, player) {
+    // return;
     bullet.kill();
     player.kill();
 
@@ -214,10 +227,11 @@ function createAlients() {
 
     for(var i = 0; i < 4; i ++) {
         for(var j = 0; j < 10; j ++) {
-            var alient = alients.create(j*48, i*50, 'alients');
-            alient.animations.add('fly', [0,1,2,3], 20, true);
-            alient.play('fly');
-            alient.body.move = false;
+            var alien = alients.create(j*48, i*50, 'alients');
+            // var alien = alients.create(game.rnd.integer() / 100000000 * Math.random() , i*50, 'alients');
+            alien.animations.add('fly', [0,1,2,3], 20, true);
+            alien.play('fly');
+            alien.body.move = false;
         }
     }
 
@@ -245,23 +259,47 @@ function createPlayer() {
     player.body.collideWorldBounds = true;
 }
 
+function createRandomAlien() {
+    if(lastAlienDead) {
+        var alien = alients.create(lastAlienDead.x, lastAlienDead.y, 'alients');
+
+        alien.animations.add('fly', [0,1,2,3], 20, true);
+        alien.play('fly');
+        alien.body.move = false;
+
+        // alients.add(alien);
+    }
+}
+
 function createStateText() {
     stateText = game.add.text(game.world.centerX, game.world.centerY, ' GAME BAN RUOI ', { font: '30px Arial', fill: '#fff' });
     stateText.anchor.setTo(0.5, 0.5);
     stateText.visible = false;
 }
 
+
+function createScoreLabel() {
+    scoreLabel = game.add.text(10, 20, 'Score : 0', {font: '20px arial', fill : '#fff'});
+}
+
 function render() {
-    // game.debug.spriteInfo(player, 64, 64);
+    // if(lastAlienDead)
+        // game.debug.spriteInfo(lastAlienDead, 64, 64);
 }
 
 function restart() {
     // Ailen is back
-    alients.callAll('revive');
-    // Player is back
-    player.revive();
+    score = 0;
 
-    stateText.text = '';
+    soundBackground.stop();
+    soundBackground.destroy();
+    game.cache.removeSound('sound_background');
+    this.game.state.restart(true, true);
+}
 
-    soundBackground.restart();
+function updateCounter() {
+    timeCounter ++;
+    if(timeCounter % 3 == 0 && alients.total > 0) {
+        createRandomAlien();
+    }
 }

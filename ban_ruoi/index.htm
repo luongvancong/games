@@ -8,5 +8,11 @@
 
     <script src="assets/js/phaser.min.js"></script>
     <script src="assets/js/game.js"></script>
+
+    <script>
+        var game = new Phaser.Game(800, 600, Phaser.AUTO, '');
+        game.state.add('game', Game);
+        game.state.start('game');
+    </script>
 </body>
 </html>
