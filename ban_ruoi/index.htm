@@ -7,12 +7,20 @@
 <body>
 
     <script src="assets/js/phaser.min.js"></script>
-    <script src="assets/js/game.js"></script>
-
+    <script src="assets/js/Background.js"></script>
+    <script src="assets/js/Explosions.js"></script>
+    <script src="assets/js/Aliens.js"></script>
+    <script src="assets/js/Bullets.js"></script>
+    <script src="assets/js/Player.js"></script>
+    <script src="assets/js/Button.js"></script>
+    <script src="assets/js/State/Level1.js"></script>
+    <script src="assets/js/State/Level2.js"></script>
+    <script src="assets/js/Boss.js"></script>
     <script>
         var game = new Phaser.Game(800, 600, Phaser.AUTO, '');
-        game.state.add('game', Game);
-        game.state.start('game');
+        game.state.add('game_level_1', Level1);
+        game.state.add('game_level_2', Level2)
+        game.state.start('game_level_1');
     </script>
 </body>
 </html>
