@@ -93,7 +93,7 @@ Aliens.prototype = {
     },
 
     createLevel2 : function() {
-        this.create(1, 1, 'aliens_level_2');
+        this.create(5, 10, 'aliens_level_2');
     },
 
 
@@ -147,7 +147,7 @@ Aliens.prototype = {
     fireLevel2 : function() {
         var that = this;
         this.fire(function() {
-            that.fireSetUp(150, 1.1);
+            that.fireSetUp(160, 1.1);
         });
     },
 
