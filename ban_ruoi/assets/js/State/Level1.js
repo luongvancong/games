@@ -39,7 +39,7 @@ Level1.prototype = {
         this.player.create();
 
         // Create button
-        // this.button.create();
+        this.button.create();
 
         // Load bullet for player
         this.player.setBullets(this.bullets.getPlayerBullets());
@@ -54,7 +54,9 @@ Level1.prototype = {
         this.cursors = this.game.input.keyboard.createCursorKeys();
         this.fireButton = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
+        // this.button.showGameOver();
         // this.aliens.killAll();
+        // this.game.state.start('game_level_2');
     },
 
     update: function() {
@@ -102,7 +104,7 @@ Level1.prototype = {
 
         this.explosions.boom(player);
 
-        this.button.create();
+        this.button.showGameOver();
     }
 
 

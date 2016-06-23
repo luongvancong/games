@@ -1,5 +1,7 @@
 var Button = function(game) {
     this.game = game;
+    this.buttonGameOver = null;
+    this.buttonNext = null;
 }
 
 Button.prototype = {
@@ -10,18 +12,34 @@ Button.prototype = {
     },
 
     create : function() {
-        var buttonGameOver = this.game.add.button(this.game.world.centerX, this.game.world.centerY, 'game_over', this.actionOnClick,this);
-        buttonGameOver.anchor.setTo(0.5,0.5);
+        this.createGameOver();
+        this.createGameNext();
+    },
+
+    createGameOver : function() {
+        this.buttonGameOver = this.game.add.button(this.game.world.centerX, this.game.world.centerY, 'game_over', this.actionOnClick,this);
+        this.buttonGameOver.anchor.setTo(0.5,0.5);
+        this.buttonGameOver.visible = false;
+    },
+
+    createGameNext : function() {
+        this.buttonNext = this.game.add.button(this.game.world.centerX, this.game.world.centerY, 'game_next', this.actionNext, this);
+        this.buttonNext.anchor.setTo(0.5, 0.5);
+        this.buttonNext.visible = false;
+    },
+
+    showGameOver : function() {
+        this.buttonNext.visible = false;
+        this.buttonGameOver.visible = true;
+    },
+
+    showNext : function() {
+        this.buttonNext.visible = true;
     },
 
     actionOnClick : function() {
         this.game.state.restart(true, false);
         this.game.state.start('game_level_1');
-    },
-
-    showNext : function() {
-        var button = this.game.add.button(this.game.world.centerX, this.game.world.centerY, 'game_next', this.actionNext, this);
-        button.anchor.setTo(0.5, 0.5);
     },
 
     actionNext : function() {

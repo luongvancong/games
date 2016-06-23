@@ -39,7 +39,7 @@ Level2.prototype = {
         this.player.create();
 
         // Create button
-        // this.button.create();
+        this.button.create();
 
         // Load bullet for player
         this.player.setBullets(this.bullets.getPlayerBullets());
@@ -99,6 +99,6 @@ Level2.prototype = {
 
         this.explosions.boom(player);
 
-        this.button.create();
+        this.button.showGameOver();
     }
 }
