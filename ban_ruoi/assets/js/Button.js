@@ -11,19 +11,19 @@ Button.prototype = {
         this.game.load.image('game_next', 'assets/images/buttons/game_next.png');
     },
 
-    create : function() {
-        this.createGameOver();
-        this.createGameNext();
+    create : function(callBackGameOverClick, callBackGameNextClick, context) {
+        this.createGameOver(callBackGameOverClick, context);
+        this.createGameNext(callBackGameNextClick, context);
     },
 
-    createGameOver : function() {
-        this.buttonGameOver = this.game.add.button(this.game.world.centerX, this.game.world.centerY, 'game_over', this.actionOnClick,this);
+    createGameOver : function(callBackGameOverClick, context) {
+        this.buttonGameOver = this.game.add.button(this.game.world.centerX, this.game.world.centerY, 'game_over', callBackGameOverClick,context);
         this.buttonGameOver.anchor.setTo(0.5,0.5);
         this.buttonGameOver.visible = false;
     },
 
-    createGameNext : function() {
-        this.buttonNext = this.game.add.button(this.game.world.centerX, this.game.world.centerY, 'game_next', this.actionNext, this);
+    createGameNext : function(callBackGameNextClick, context) {
+        this.buttonNext = this.game.add.button(this.game.world.centerX, this.game.world.centerY, 'game_next', callBackGameNextClick, context);
         this.buttonNext.anchor.setTo(0.5, 0.5);
         this.buttonNext.visible = false;
     },
@@ -35,19 +35,5 @@ Button.prototype = {
 
     showNext : function() {
         this.buttonNext.visible = true;
-    },
-
-    actionOnClick : function() {
-        this.game.state.restart(true, false);
-        this.game.state.start('game_level_1');
-    },
-
-    actionNext : function() {
-        if(this.game.state.current == 'game_level_1') {
-            this.game.state.start('game_level_2');
-        }
-        else if(this.game.state.current == 'game_level_2') {
-            this.game.state.start('game_level_1');
-        }
     }
 }

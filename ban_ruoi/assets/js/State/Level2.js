@@ -7,9 +7,16 @@ var Level2 = function(game) {
     this.explosions = new Explosions(game);
     this.button = new Button(game);
     this.level1 = new Level1(game);
+    this.score = new Score(game);
+    this._score = 0;
 }
 
 Level2.prototype = {
+
+    init : function(score) {
+        this._score = score;
+    },
+
     preload : function() {
         this.background.preload();
         this.player.preload();
@@ -39,7 +46,7 @@ Level2.prototype = {
         this.player.create();
 
         // Create button
-        this.button.create();
+        this.button.create(this.callBackGameOverClick, this.callBackGameNextClick);
 
         // Load bullet for player
         this.player.setBullets(this.bullets.getPlayerBullets());
@@ -49,6 +56,8 @@ Level2.prototype = {
 
         // Target player for aliens
         this.aliens.setPlayer(this.player.getPlayer());
+
+        this.score.create(this._score);
 
         // Events
         this.cursors = this.game.input.keyboard.createCursorKeys();
@@ -88,6 +97,8 @@ Level2.prototype = {
         alien.kill();
         bullet.kill();
 
+        this.score.update(10);
+
         this.explosions.boom(alien);
     },
 
@@ -100,5 +111,19 @@ Level2.prototype = {
         this.explosions.boom(player);
 
         this.button.showGameOver();
+    },
+
+    callBackGameOverClick : function() {
+        this.game.state.restart(true, false);
+        this.game.state.start('game_level_1');
+    },
+
+    callBackGameNextClick : function() {
+        if(this.game.state.current == 'game_level_1') {
+            this.game.state.start('game_level_2', true, false, this.score.getCurrentScore());
+        }
+        else if(this.game.state.current == 'game_level_2') {
+            this.game.state.start('game_level_1');
+        }
     }
 }
