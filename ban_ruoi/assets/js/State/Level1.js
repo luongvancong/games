@@ -6,6 +6,7 @@ var Level1 = function(game) {
     this.aliens = new Aliens(game);
     this.explosions = new Explosions(game);
     this.button = new Button(game);
+    this.score = new Score(game);
 }
 
 Level1.prototype = {
@@ -50,6 +51,8 @@ Level1.prototype = {
         // Target player for aliens
         this.aliens.setPlayer(this.player.getPlayer());
 
+        this.score.show(0);
+
         // Events
         this.cursors = this.game.input.keyboard.createCursorKeys();
         this.fireButton = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -92,6 +95,8 @@ Level1.prototype = {
     overlapPlayerBulletAliens: function(bullet, alien) {
         alien.kill();
         bullet.kill();
+
+        this.score.setScore(10);
 
         this.explosions.boom(alien);
     },
