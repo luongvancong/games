@@ -19,14 +19,18 @@
     <script src="assets/js/Player.js"></script>
     <script src="assets/js/Button.js"></script>
     <script src="assets/js/Score.js"></script>
+    <script src="assets/js/State/Boot.js"></script>
+    <script src="assets/js/State/Preload.js"></script>
     <script src="assets/js/State/Level1.js"></script>
     <script src="assets/js/State/Level2.js"></script>
     <script src="assets/js/Boss.js"></script>
     <script>
         var game = new Phaser.Game(800, 600, Phaser.AUTO, '');
+        game.state.add('game_boot', Boot);
+        game.state.add('game_loading', Preload);
         game.state.add('game_level_1', Level1);
         game.state.add('game_level_2', Level2)
-        game.state.start('game_level_1');
+        game.state.start('game_boot');
     </script>
 </body>
 </html>

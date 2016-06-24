@@ -12,12 +12,12 @@ var Level1 = function(game) {
 Level1.prototype = {
 
     preload : function() {
-        this.background.preload();
-        this.player.preload();
-        this.bullets.preload();
-        this.aliens.preload();
-        this.explosions.preload();
-        this.button.preload();
+        // this.background.preload();
+        // this.player.preload();
+        // this.bullets.preload();
+        // this.aliens.preload();
+        // this.explosions.preload();
+        // this.button.preload();
     },
 
     create: function() {
