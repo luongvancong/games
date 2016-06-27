@@ -61,6 +61,7 @@ Aliens.prototype = {
     preload : function() {
         this.game.load.spritesheet('aliens', 'assets/images/invader32x32x4.png', 32, 32);
         this.game.load.atlas('aliens_level_2', 'assets/images/fly_monster.png', null, botData);
+        this.game.load.image('aliens_level_3', 'assets/images/boss_50.png');
     },
 
     create : function(rows, cols, keyPicture) {
@@ -93,15 +94,20 @@ Aliens.prototype = {
     },
 
     createLevel2 : function() {
-        this.create(5, 10, 'aliens_level_2');
+        this.create(5,10, 'aliens_level_2');
     },
 
+    createLevel3 : function() {
+        this.create(5,10,'aliens_level_3');
+    },
 
     update : function() {
 
     },
 
-    fireSetUp : function(bulletSpeed, bulletSize) {
+    fireSetUp : function(bulletSpeed, bulletSize, maxBulletTime) {
+        if (maxBulletTime === undefined) maxBulletTime = 0;
+
         var aliens = this.aliens;
         var that = this;
         var player = this.getPlayer();
@@ -123,9 +129,12 @@ Aliens.prototype = {
                 bullet.scale.setTo(bulletSize);
             }
 
-            that.game.physics.arcade.moveToObject(bullet, player, bulletSpeed);
 
-            that.bulletTime = that.game.time.now + 200;
+            that.game.physics.arcade.moveToObject(bullet, player, bulletSpeed, maxBulletTime);
+
+            if(maxBulletTime == 0) {
+                that.bulletTime = that.game.time.now + 200;
+            }
         }
     },
 
@@ -147,7 +156,14 @@ Aliens.prototype = {
     fireLevel2 : function() {
         var that = this;
         this.fire(function() {
-            that.fireSetUp(160, 1.1);
+            that.fireSetUp(180, 1.1);
+        });
+    },
+
+    fireLevel3 : function() {
+        var that = this;
+        this.fire(function() {
+            that.fireSetUp(200, 1.5, 1500);
         });
     },
 

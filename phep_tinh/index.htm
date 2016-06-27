@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Phep tinh</title>
+</head>
+<body>
+    <script src="/assets/phaser.min.js"></script>
+
+    <script src="assets/js/states/Boot.js"></script>
+    <script src="assets/js/states/Preload.js"></script>
+    <script src="assets/js/states/Level1.js"></script>
+    <script src="assets/js/states/Level2.js"></script>
+
+    <script>
+        var game = new Phaser.Game(800, 600, Phaser.AUTO, '');
+        game.state.add('game_boot', Boot);
+        game.state.add('game_loading', Preload);
+        game.state.add('game_level_1', Level1);
+        game.state.add('game_level_2', Level2)
+        game.state.start('game_boot');
+    </script>
+</body>
+</html>

@@ -17,15 +17,6 @@ Level2.prototype = {
         this._score = score;
     },
 
-    preload : function() {
-        // this.background.preload();
-        // this.player.preload();
-        // this.bullets.preload();
-        // this.aliens.preload();
-        // this.explosions.preload();
-        // this.button.preload();
-    },
-
     create : function() {
         // Start game
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -123,7 +114,7 @@ Level2.prototype = {
             this.game.state.start('game_level_2', true, false, this.score.getCurrentScore());
         }
         else if(this.game.state.current == 'game_level_2') {
-            this.game.state.start('game_level_1');
+            this.game.state.start('game_level_3');
         }
     }
 }
