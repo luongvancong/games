@@ -109,14 +109,6 @@ Level3.prototype = {
     },
 
     callBackGameNextClick : function() {
-        if(this.game.state.current == 'game_level_1') {
-            this.game.state.start('game_level_2', true, false, this.score.getCurrentScore());
-        }
-        else if(this.game.state.current == 'game_level_2') {
-            this.game.state.start('game_level_3');
-        }
-        else if(this.game.state.current == 'game_level_3') {
-            this.game.state.start('game_level_1');
-        }
+        this.game.state.start('game_level_3');
     }
 }

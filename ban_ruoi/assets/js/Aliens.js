@@ -163,7 +163,7 @@ Aliens.prototype = {
     fireLevel3 : function() {
         var that = this;
         this.fire(function() {
-            that.fireSetUp(200, 1.5, 1500);
+            that.fireSetUp(300, 1.5, 1800);
         });
     },
 
