@@ -1,0 +1,26 @@
+<examinate>
+    <code></code>
+    <subject></subject>
+    <time>20</time>
+    <rule></rule>
+    <point>10</point>
+    <giftPoint>0</giftPoint>
+    <numRow>5</numRow>
+    <numCol>2</numCol>
+    <maxerror>3</maxerror>
+    <numLevel1>4</numLevel1>
+    <numLevel2>4</numLevel2>
+    <numLevel3>2</numLevel3>
+    <questions>
+        <question level="0" check="True" create_date="26/05/2016">260520161405265731009.png</question>
+        <question level="0" check="True" create_date="26/05/2016">260520161405266355010.png</question>
+        <question level="0" check="True" create_date="26/05/2016">260520161405266823011.png</question>
+        <question level="0" check="True" create_date="26/05/2016">260520161405267291012.png</question>
+        <question level="1" check="True" create_date="26/05/2016">260520161405267759013.png</question>
+        <question level="1" check="True" create_date="26/05/2016">260520161405268227014.png</question>
+        <question level="1" check="True" create_date="26/05/2016">260520161405268695015.png</question>
+        <question level="1" check="True" create_date="26/05/2016">260520161405269007015.png</question>
+        <question level="2" check="True" create_date="26/05/2016">260520161405270723018.png</question>
+        <question level="2" check="True" create_date="26/05/2016">260520161405271347019.png</question>
+    </questions>
+</examinate>

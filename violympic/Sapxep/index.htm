@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Game Sap Xep</title>
+</head>
+<body>
+    <div id="sapxep"></div>
+    <div id="phaser-example"></div>
+</body>
+
+<script src="/assets/js/phaser.min.js"></script>
+<script src="/assets/js/env.js"></script>
+<script src="/assets/js/violympic.js"></script>
+<script src="/assets/js/functions.js"></script>
+<script src="assets/js/states/Boot.js"></script>
+<script src="assets/js/states/Intro.js"></script>
+<script src="assets/js/states/Game.js"></script>
+<script src="assets/js/states/GameOver.js"></script>
+<script src="assets/js/states/GameSuccess.js"></script>
+<script>
+    var game = new Phaser.Game(1060, 600, Phaser.AUTO, 'phaser-example', '');
+    game.state.add('Boot', Boot);
+    game.state.add('Intro', Intro);
+    game.state.add('Game', Game);
+    game.state.add('GameOver', GameOver);
+    game.state.add('GameSuccess', GameSuccess);
+    game.state.start('Boot');
+</script>
+</html>

@@ -28,9 +28,8 @@ Level1.prototype = {
         btnGroups.x = -Math.floor(btnGroups.width /2);
         btnGroups.y = -Math.floor(btnGroups.height / 2);
 
-
         var pw = popup.width / 2 - 30;
-        var ph = popup.height /2 - 10;
+        var ph = popup.height / 2 - 10;
 
         var close = this.game.add.button(this.game.world.centerX, this.game.world.centerY, 'close', this.closePopup, this);
         close.reset(pw, -ph);
