@@ -5,6 +5,8 @@ var Game = function() {
     this.pointPerQuestion = 0;
     this.time             = 0;
     this.clickCount       = 0;
+    this.currectAnswers   = [];
+    this.selectedValue    = -1;
 }
 
 Game.prototype = {
@@ -23,6 +25,10 @@ Game.prototype = {
 
         // Số lượng câu hỏi
         var numQuestion = this.violympic.getCols() * this.violympic.getRows();
+
+        for(var i = 0; i < 10; i ++) {
+            this.currectAnswers.push(i);
+        }
 
         // Điểm cho mỗi câu hỏi
         this.setPointPerQuestion(Math.round(this.getTotalPoint()/numQuestion));
@@ -145,9 +151,14 @@ Game.prototype = {
 
         this.clickCount += 1;
 
+        this.selectedValue = sttQuestion;
+
         // Nếu trả lời sai trừ đi 1 mạng
         if(this.valid(sttQuestion) == false) {
-            this.clickCount = 0;
+            // Nếu chọn index = 1 ngay từ lần chọn đầu tiên thì phải chọn lại
+            if(sttQuestion == 1 && this.clickCount == 1) {
+                this.clickCount = 0;
+            }
             this.live -= 1;
             this.updateLiveText();
 
