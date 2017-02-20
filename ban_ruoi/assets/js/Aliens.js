@@ -73,7 +73,7 @@ Aliens.prototype = {
                 var alien = this.aliens.create(x*70, y*50, keyPicture);
                 // alien.anchor.setTo(0.5);
                 alien.animations.add('fly');
-                alien.animations.play('fly', 18, true);
+                alien.animations.play('fly', 8, true);
                 alien.enableBody = true;
                 alien.body.move = false;
             }

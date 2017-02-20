@@ -37,7 +37,6 @@ Level1.prototype = {
         popup.addChild(close);
         popup.addChild(btnGroups);
 
-
         this.popup = popup;
         this.close = close;
     },
