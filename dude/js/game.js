@@ -61,7 +61,7 @@ function create() {
     stars.enableBody = true;
 
     //  Here we'll create 12 of them evenly spaced apart
-    for (var i = 0; i < 12; i++)
+    for (var i = 0; i < 1; i++)
     {
         //  Create a star inside of the 'stars' group
         var star = stars.create(i * 70, 0, 'star');
@@ -93,7 +93,7 @@ function create() {
     timer = game.time.create(false);
 
     //  Set a TimerEvent to occur after 2 seconds
-    timer.loop(2000, drawStars, this);
+    timer.loop(3000, drawStars, this);
 
     //  Start the timer running - this is important!
     //  It won't start automatically, allowing you to hook it to button events and the like.
@@ -102,21 +102,6 @@ function create() {
 }
 
 function update() {
-
-    // for (var i = 0; i < 12; i++)
-    // {
-    //     //  Create a star inside of the 'stars' group
-    //     var star = stars.create(i * 70, 0, 'star');
-
-    //     //  Let gravity do its thing
-    //     star.body.gravity.y = 300;
-
-    //     //  This just gives each star a slightly random bounce value
-    //     star.body.bounce.y = 0.7 + Math.random() * 0.2;
-
-
-    // }
-
 
     //  Collide the player and the stars with the platforms
     game.physics.arcade.collide(player, platforms);
@@ -174,13 +159,13 @@ function collectStar (player, star) {
 
 
 function drawStars() {
-    for (var i = 0; i < 12; i++)
+    for (var i = 0; i < 1; i++)
     {
         //  Create a star inside of the 'stars' group
         var star = stars.create(game.rnd.integerInRange(0, game.world.width), 0, 'star');
 
         //  Let gravity do its thing
-        star.body.gravity.y = 30;
+        star.body.gravity.y = 100;
 
         //  This just gives each star a slightly random bounce value
         star.body.bounce.y = 0.7 + Math.random() * 0.2;
