@@ -93,7 +93,7 @@ function create() {
     timer = game.time.create(false);
 
     //  Set a TimerEvent to occur after 2 seconds
-    timer.loop(3000, drawStars, this);
+    timer.loop(1000, drawStars, this);
 
     //  Start the timer running - this is important!
     //  It won't start automatically, allowing you to hook it to button events and the like.
@@ -119,14 +119,14 @@ function update() {
     if (cursors.left.isDown)
     {
         //  Move to the left
-        player.body.velocity.x = -150;
+        player.body.velocity.x = -300;
 
         player.animations.play('left');
     }
     else if (cursors.right.isDown)
     {
         //  Move to the right
-        player.body.velocity.x = 150;
+        player.body.velocity.x = 300;
 
         player.animations.play('right');
     }
@@ -165,7 +165,7 @@ function drawStars() {
         var star = stars.create(game.rnd.integerInRange(0, game.world.width), 0, 'star');
 
         //  Let gravity do its thing
-        star.body.gravity.y = 100;
+        star.body.gravity.y = 40;
 
         //  This just gives each star a slightly random bounce value
         star.body.bounce.y = 0.7 + Math.random() * 0.2;
